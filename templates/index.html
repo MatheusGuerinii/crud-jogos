@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Games CRUD</title>
+</head>
+<body>
+
+<h1>Cadastro de Games</h1>
+
+<input type="text" id="nome" placeholder="Nome do jogo">
+<input type="text" id="plataforma" placeholder="Plataforma">
+<input type="text" id="status" placeholder="Status">
+<input type="number" id="nota" placeholder="Nota">
+
+<br><br>
+
+<button id="btnSalvar" onclick="salvarJogo()">Criar</button>
+<button id="btnCancelar" onclick="cancelarEdicao()" style="display:none">Cancelar</button>
+
+<hr>
+
+<ul id="lista"></ul>
+
+<script>
+    let idEmEdicao = null;
+
+    async function salvarJogo() {
+        const nome = document.getElementById("nome").value;
+        const plataforma = document.getElementById("plataforma").value;
+        const status = document.getElementById("status").value;
+        const nota = document.getElementById("nota").value;
+
+        if (!nome || !plataforma || !status || !nota) {
+            alert("Preencha tudo");
+            return;
+        }
+
+        if (idEmEdicao === null) {
+            await fetch("/games", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: nome,
+                    platform: plataforma,
+                    status: status,
+                    rating: nota
+                })
+            });
+        } else {
+            await fetch(`/games/${idEmEdicao}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: nome,
+                    platform: plataforma,
+                    status: status,
+                    rating: nota
+                })
+            });
+
+            cancelarEdicao();
+        }
+
+        limparCampos();
+        listarJogos();
+    }
+
+    function prepararEdicao(jogo) {
+        document.getElementById("nome").value = jogo.nome;
+        document.getElementById("plataforma").value = jogo.plataforma;
+        document.getElementById("status").value = jogo.status;
+        document.getElementById("nota").value = jogo.nota;
+
+        idEmEdicao = jogo.id;
+
+        document.getElementById("btnSalvar").innerText = "Atualizar";
+        document.getElementById("btnCancelar").style.display = "inline";
+    }
+
+    function cancelarEdicao() {
+        idEmEdicao = null;
+        limparCampos();
+
+        document.getElementById("btnSalvar").innerText = "Criar";
+        document.getElementById("btnCancelar").style.display = "none";
+    }
+
+    function limparCampos() {
+        document.getElementById("nome").value = "";
+        document.getElementById("plataforma").value = "";
+        document.getElementById("status").value = "";
+        document.getElementById("nota").value = "";
+    }
+
+    async function listarJogos() {
+        const resposta = await fetch("/games");
+        const jogos = await resposta.json();
+
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "";
+
+        jogos.forEach(jogo => {
+            const li = document.createElement("li");
+            li.innerText = `${jogo.nome} | ${jogo.plataforma} | ${jogo.status} | Nota ${jogo.nota}`;
+
+            const btnEditar = document.createElement("button");
+            btnEditar.innerText = "Editar";
+            btnEditar.onclick = () => prepararEdicao(jogo);
+
+            const btnExcluir = document.createElement("button");
+            btnExcluir.innerText = "Excluir";
+            btnExcluir.onclick = () => deletarJogo(jogo.id);
+
+            li.appendChild(btnEditar);
+            li.appendChild(btnExcluir);
+
+            lista.appendChild(li);
+        });
+    }
+
+    async function deletarJogo(id) {
+        if (!confirm("Excluir?")) return;
+
+        await fetch(`/games/${id}`, {
+            method: "DELETE"
+        });
+
+        listarJogos();
+    }
+
+    listarJogos();
+</script>
+
+</body>
+</html>
