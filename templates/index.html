@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
     <title>Games CRUD</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>Cadastro de Games</h1>
+<div class="container">
 
-<input type="text" id="nome" placeholder="Nome do jogo">
-<input type="text" id="plataforma" placeholder="Plataforma">
-<input type="text" id="status" placeholder="Status">
-<input type="number" id="nota" placeholder="Nota">
+    <h1>Gerenciamento de Games</h1>
 
-<br><br>
+    <div class="card">
+        <div class="form-grid">
+            <input type="text" id="nome" placeholder="Nome do jogo">
+            <input type="text" id="plataforma" placeholder="Plataforma">
+            <input type="text" id="status" placeholder="Status">
+            <input type="number" id="nota" placeholder="Nota">
+        </div>
 
-<button id="btnSalvar" onclick="salvarJogo()">Criar</button>
-<button id="btnCancelar" onclick="cancelarEdicao()" style="display:none">Cancelar</button>
+        <div class="buttons">
+            <button id="btnSalvar" onclick="salvarJogo()">Criar</button>
+            <button id="btnCancelar" onclick="cancelarEdicao()" style="display:none">Cancelar</button>
+        </div>
+    </div>
 
-<hr>
+    <ul id="lista"></ul>
 
-<ul id="lista"></ul>
+</div>
 
 <script>
     let idEmEdicao = null;
@@ -101,7 +109,16 @@
 
         jogos.forEach(jogo => {
             const li = document.createElement("li");
-            li.innerText = `${jogo.nome} | ${jogo.plataforma} | ${jogo.status} | Nota ${jogo.nota}`;
+
+            li.innerHTML = `
+                <div class="game-info">
+                    <strong>${jogo.nome}</strong><br>
+                    ${jogo.plataforma} • ${jogo.status} • Nota ${jogo.nota}
+                </div>
+            `;
+
+            const actions = document.createElement("div");
+            actions.classList.add("actions");
 
             const btnEditar = document.createElement("button");
             btnEditar.innerText = "Editar";
@@ -111,9 +128,10 @@
             btnExcluir.innerText = "Excluir";
             btnExcluir.onclick = () => deletarJogo(jogo.id);
 
-            li.appendChild(btnEditar);
-            li.appendChild(btnExcluir);
+            actions.appendChild(btnEditar);
+            actions.appendChild(btnExcluir);
 
+            li.appendChild(actions);
             lista.appendChild(li);
         });
     }

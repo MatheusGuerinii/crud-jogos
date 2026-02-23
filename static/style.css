@@ -1,0 +1,169 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1f2937, #111827);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #f3f4f6;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: #1f2937;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.card {
+    background: #111827;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #374151;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    border-color: #3b82f6;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid input {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background: #1f2937;
+    color: #f3f4f6;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-grid input::placeholder {
+    color: #9ca3af;
+}
+
+.form-grid input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    background: #0f172a;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#btnSalvar {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+#btnSalvar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(59, 130, 246, 0.4);
+}
+
+#btnCancelar {
+    background: #374151;
+    color: #f3f4f6;
+}
+
+#btnCancelar:hover {
+    background: #4b5563;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    background: #111827;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.game-info strong {
+    font-size: 16px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.actions button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.actions button:first-child {
+    background: #10b981;
+    color: white;
+}
+
+.actions button:first-child:hover {
+    background: #059669;
+}
+
+.actions button:last-child {
+    background: #ef4444;
+    color: white;
+}
+
+.actions button:last-child:hover {
+    background: #dc2626;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
